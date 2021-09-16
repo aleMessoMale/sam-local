@@ -6,10 +6,10 @@ import jenkins
 #import ptvsd
 #import debugpy
 
-# import ptvsd
+import ptvsd
 
-# ptvsd.enable_attach(address=(‘0.0.0.0’, 5890), redirect_output=True)
-# ptvsd.wait_for_attach()
+ptvsd.enable_attach(address=('0.0.0.0', 5890), redirect_output=True)
+ptvsd.wait_for_attach()
 
 #debugpy.listen(5678)
 #debugpy.wait_for_client()
@@ -47,7 +47,7 @@ def lambda_handler(event, context):
     logging.info("sto debuggando")
 
     return {
-        "statusCode": 300,
+        "statusCode": 200,
         "body": json.dumps({
             "message": "hello world debugging"
             # "location": ip.text.replace("\n", "")

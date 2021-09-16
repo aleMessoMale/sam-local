@@ -50,6 +50,19 @@
                 "skipNewImageCheck": false
             },
             "name": "API sam-app:HelloWorldFunction direct call"
+        },
+        {
+            "name": "SAM CLI Python Hello World",
+            "type": "python",
+            "request": "attach",
+            "port": 5890,
+            "host": "127.0.0.1",
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}/hello_world",
+                    "remoteRoot": "/var/task"
+                }
+            ]
         }
     ]
 }

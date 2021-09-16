@@ -128,3 +128,36 @@ aws cloudformation delete-stack --stack-name sam-app
 See the [AWS SAM developer guide](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) for an introduction to SAM specification, the SAM CLI, and serverless application concepts.
 
 Next, you can use AWS Serverless Application Repository to deploy ready to use Apps that go beyond hello world samples and learn how authors developed their applications: [AWS Serverless Application Repository main page](https://aws.amazon.com/serverless/serverlessrepo/)
+
+
+## Main command to execute to debug
+
+Start local lambda in a private ip (it seems it has some problem with localhost when step function call it) with a debug port
+
+```sam local start-lambda --host 172.17.0.1 -d 5890```
+
+Start docker container for local Step Functions, on first execution it should automatically pull the needed docker image // make sure you edit localsettings.txt to suit your needs (in this case 172.17.0.1). This will be called to create\invoke and describe step function execution
+
+```docker run -p 8083:8083 --env-file localsettings.txt amazon/aws-stepfunctions-local```
+
+localsettings.txt contains the lambda layer endpoint 172.17.0.1:3001
+
+Create state machine
+
+```aws stepfunctions create-state-machine --endpoint http://localhost:8083 --definition file://StateMachine.json --name "HelloWorldFunction" --role-arn "arn:aws:iam::012345678901:role/DummyRole"```
+
+Invoke Step Function execution
+
+```aws stepfunctions --endpoint http://localhost:8083 start-execution --state-machine  arn:aws:states:us-east-1:123456789012:stateMachine:HelloWorldFunction --name test```
+
+
+At this point, the ptvsd library in the lambda layer is waiting for the debugger to attach, and then the stepfunction state is "RUNNING".
+
+Execute the debugger configuration "SAM CLI Python Hello World" and make it attach to the lambda
+
+You can also execute the describe execution command to see the full details of the execution
+
+```aws stepfunctions --endpoint http://localhost:8083 describe-execution --execution-arn arn:aws:states:us-east-1:123456789012:execution:HelloWorldFunction:test```
+
+
+
