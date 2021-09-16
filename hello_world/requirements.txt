@@ -1,1 +1,2 @@
-requests
+requests==2.20.1
+ptvsd==4.2.10

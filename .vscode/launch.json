@@ -1,5 +1,7 @@
 {
     "configurations": [
+        
+    
         {
             "type": "aws-sam",
             "request": "direct-invoke",
@@ -28,6 +30,7 @@
         },
         {
             "type": "aws-sam",
+            
             "request": "direct-invoke",
             "invokeTarget": {
                 "target": "template",

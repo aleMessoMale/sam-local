@@ -17,6 +17,10 @@ Resources:
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: python3.8
+      Layers:
+        - !Ref PythonJenkins
+        - !Ref DebugPy
+        - !Ref Ptvsd
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -32,7 +36,27 @@ Resources:
       ContentUri: /home/acasula/developmentEnv/workspaces/new-devops-developments/sam-app/python-jenkins/python-jenkins.zip
       CompatibleRuntimes:
         - python3.8
-      RetentionPolicy: Retain          
+      RetentionPolicy: Retain  
+  DebugPy:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: debugpy
+      Description: python jenkins layer
+      #ContentUri: ./python-jenkins # myLayer # dependencies/
+      ContentUri: ./debugpy
+      CompatibleRuntimes:
+        - python3.8
+      RetentionPolicy: Retain  
+  Ptvsd:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: ptvsd
+      Description: ptvsd
+      #ContentUri: ./python-jenkins # myLayer # dependencies/
+      ContentUri: ./ptvsd
+      CompatibleRuntimes:
+        - python3.8
+      RetentionPolicy: Retain              
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

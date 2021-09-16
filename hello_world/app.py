@@ -1,12 +1,19 @@
 import json
 import logging
 import six
-#import jenkins
-#from docutils import get_secret
+import jenkins
 
-# import requests
+#import ptvsd
+#import debugpy
 
- 
+# import ptvsd
+
+# ptvsd.enable_attach(address=(‘0.0.0.0’, 5890), redirect_output=True)
+# ptvsd.wait_for_attach()
+
+#debugpy.listen(5678)
+#debugpy.wait_for_client()
+
 def lambda_handler(event, context):
     """Sample pure Lambda function
 
@@ -42,7 +49,7 @@ def lambda_handler(event, context):
     return {
         "statusCode": 300,
         "body": json.dumps({
-            "message": "hello world debugging",
+            "message": "hello world debugging"
             # "location": ip.text.replace("\n", "")
-        }),
+        })
     }
